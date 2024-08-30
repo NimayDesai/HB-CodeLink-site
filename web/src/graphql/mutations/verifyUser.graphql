@@ -1,0 +1,13 @@
+mutation VerifyUser($token: String!) {
+  vefifyUser(token: $token) {
+    errors {
+      field
+      message
+    }
+    user {
+      verified
+      id
+      username
+    }
+  }
+}

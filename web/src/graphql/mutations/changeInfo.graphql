@@ -1,0 +1,19 @@
+mutation ChangeInfo(
+  $username: String
+  $newPassword: String
+  $email: String
+  $name: String
+  $password: String!
+) {
+  changeInfo(
+    input: {
+      username: $username
+      email: $email
+      password: $newPassword
+      name: $name
+    }
+    password: $password
+  ) {
+    ...RegularUserResponse
+  }
+}

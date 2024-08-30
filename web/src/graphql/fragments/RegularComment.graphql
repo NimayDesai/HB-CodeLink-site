@@ -1,0 +1,10 @@
+fragment RegularComment on Comment {
+  id
+  content
+  commenter {
+    ...RegularUser
+  }
+  post {
+    ...RegularPost
+  }
+}
