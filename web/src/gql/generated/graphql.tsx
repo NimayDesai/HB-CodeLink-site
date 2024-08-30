@@ -104,6 +104,17 @@ export type DateTimeFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTimeISO']['input']>>;
 };
 
+export type DateTimeNullableFilter = {
+  equals?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  gt?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  gte?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  in?: InputMaybe<Array<Scalars['DateTimeISO']['input']>>;
+  lt?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  lte?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  not?: InputMaybe<NestedDateTimeNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTimeISO']['input']>>;
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String']['output'];
@@ -129,6 +140,7 @@ export type Mutation = {
   createPost: Post;
   deleteComment: Scalars['Boolean']['output'];
   deletePost: Scalars['Boolean']['output'];
+  deleteUser: Scalars['Boolean']['output'];
   forgotPassword: Scalars['Boolean']['output'];
   login: UserResponse;
   logout: Scalars['Boolean']['output'];
@@ -223,6 +235,17 @@ export type NestedDateTimeFilter = {
   lt?: InputMaybe<Scalars['DateTimeISO']['input']>;
   lte?: InputMaybe<Scalars['DateTimeISO']['input']>;
   not?: InputMaybe<NestedDateTimeFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTimeISO']['input']>>;
+};
+
+export type NestedDateTimeNullableFilter = {
+  equals?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  gt?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  gte?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  in?: InputMaybe<Array<Scalars['DateTimeISO']['input']>>;
+  lt?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  lte?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  not?: InputMaybe<NestedDateTimeNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTimeISO']['input']>>;
 };
 
@@ -444,8 +467,8 @@ export type QueryPostArgs = {
 
 
 export type QueryPostsArgs = {
-  cursor?: InputMaybe<Scalars['Int']['input']>;
   limit: Scalars['Float']['input'];
+  offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryMode =
@@ -560,6 +583,7 @@ export type User = {
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   imageUri?: Maybe<Scalars['String']['output']>;
+  lastPosted?: Maybe<Scalars['DateTimeISO']['output']>;
   name: Scalars['String']['output'];
   posts: Array<Post>;
   star: Array<Star>;
@@ -626,6 +650,7 @@ export type UserOrderByWithRelationInput = {
   email?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUri?: InputMaybe<SortOrderInput>;
+  lastPosted?: InputMaybe<SortOrderInput>;
   name?: InputMaybe<SortOrder>;
   password?: InputMaybe<SortOrder>;
   posts?: InputMaybe<PostOrderByRelationAggregateInput>;
@@ -655,6 +680,7 @@ export type UserWhereInput = {
   email?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   imageUri?: InputMaybe<StringNullableFilter>;
+  lastPosted?: InputMaybe<DateTimeNullableFilter>;
   name?: InputMaybe<StringFilter>;
   password?: InputMaybe<StringFilter>;
   posts?: InputMaybe<PostListRelationFilter>;
@@ -721,6 +747,11 @@ export type CreatePostMutationVariables = Exact<{
 
 
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } } };
+
+export type DeleteUserMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: boolean };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -801,7 +832,7 @@ export type PostCountQuery = { __typename?: 'Query', postCount: number };
 
 export type PostsQueryVariables = Exact<{
   limit: Scalars['Float']['input'];
-  cursor?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -1007,6 +1038,36 @@ export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const DeleteUserDocument = gql`
+    mutation DeleteUser {
+  deleteUser
+}
+    `;
+export type DeleteUserMutationFn = Apollo.MutationFunction<DeleteUserMutation, DeleteUserMutationVariables>;
+
+/**
+ * __useDeleteUserMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserMutation, { data, loading, error }] = useDeleteUserMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeleteUserMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserMutation, DeleteUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUserDocument, options);
+      }
+export type DeleteUserMutationHookResult = ReturnType<typeof useDeleteUserMutation>;
+export type DeleteUserMutationResult = Apollo.MutationResult<DeleteUserMutation>;
+export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<DeleteUserMutation, DeleteUserMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -1407,8 +1468,8 @@ export type PostCountLazyQueryHookResult = ReturnType<typeof usePostCountLazyQue
 export type PostCountSuspenseQueryHookResult = ReturnType<typeof usePostCountSuspenseQuery>;
 export type PostCountQueryResult = Apollo.QueryResult<PostCountQuery, PostCountQueryVariables>;
 export const PostsDocument = gql`
-    query Posts($limit: Float!, $cursor: Int) {
-  posts(limit: $limit, cursor: $cursor) {
+    query Posts($limit: Float!, $offset: Int) {
+  posts(limit: $limit, offset: $offset) {
     hasMore
     posts {
       ...RegularPost
@@ -1430,7 +1491,7 @@ export const PostsDocument = gql`
  * const { data, loading, error } = usePostsQuery({
  *   variables: {
  *      limit: // value for 'limit'
- *      cursor: // value for 'cursor'
+ *      offset: // value for 'offset'
  *   },
  * });
  */

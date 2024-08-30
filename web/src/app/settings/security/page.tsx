@@ -3,13 +3,34 @@
 import { InputField } from "@/components/InputField";
 import SimpleSidebar from "@/components/SettingsSidebar";
 import { VerifyModal } from "@/components/VerifyModal";
-import { useChangeInfoMutation } from "@/gql/generated/graphql";
+import {
+  useChangeInfoMutation,
+  useDeleteUserMutation,
+} from "@/gql/generated/graphql";
 import { toErrorMap } from "@/utils/toErrorMap";
-import { Box, Button, Heading, VStack } from "@chakra-ui/react";
+import { useApolloClient } from "@apollo/client";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Box,
+  Button,
+  Heading,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
 import { Form, Formik } from "formik";
+import React from "react";
 
 const AccountSettings = () => {
   const [changeInfo, { loading }] = useChangeInfoMutation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef(null);
+  const [deleteUser] = useDeleteUserMutation();
+  const apolloClient = useApolloClient();
   return (
     <Box>
       <SimpleSidebar>
@@ -79,6 +100,42 @@ const AccountSettings = () => {
               </Form>
             )}
           </Formik>
+          <Button colorScheme="red" onClick={onOpen}>
+            Delete Account
+          </Button>
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                  Delete Customer
+                </AlertDialogHeader>
+
+                <AlertDialogBody>
+                  Are you sure? You can't undo this action afterwards.
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button ref={cancelRef} onClick={onClose}>
+                    Cancel
+                  </Button>
+                  <Button
+                    colorScheme="red"
+                    onClick={async () => {
+                      await deleteUser();
+                      await apolloClient.resetStore();
+                    }}
+                    ml={3}
+                  >
+                    Delete User
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
         </Box>
       </SimpleSidebar>
     </Box>

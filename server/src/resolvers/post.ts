@@ -213,20 +213,19 @@ export class PostResolver {
   @Query(() => PaginatedPosts)
   async posts(
     @Arg("limit") limit: number,
-    @Arg("cursor", () => Int, { nullable: true }) cursor: number,
+    @Arg("offset", () => Int, { nullable: true }) offset: number | undefined,
     @Ctx() { prisma }: MyContext
   ): Promise<PaginatedPosts> {
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;
     const posts = await prisma.post.findMany({
       take: realLimitPlusOne,
-      skip: 1,
+      skip: offset ? offset : undefined,
       include: {
         author: true,
       },
-      cursor: cursor ? { id: cursor } : undefined,
       orderBy: {
-        id: "desc",
+        id: "asc",
       },
     });
     return {

@@ -1,5 +1,5 @@
 "use client";
-import { PaginatedComments, PaginatedPosts } from "@/gql/generated/graphql";
+import { PaginatedComments } from "@/gql/generated/graphql";
 // ^ this file needs the "use client" pragma
 
 import { HttpLink } from "@apollo/client";
@@ -30,18 +30,6 @@ function makeClient() {
       typePolicies: {
         Query: {
           fields: {
-            posts: {
-              keyArgs: [],
-              merge(
-                existing: PaginatedPosts | undefined,
-                incoming: PaginatedPosts
-              ): PaginatedPosts {
-                return {
-                  ...incoming,
-                  posts: [...(existing?.posts || []), ...incoming.posts],
-                };
-              },
-            },
             comments: {
               keyArgs: [],
               merge(

@@ -1,5 +1,5 @@
-query Posts($limit: Float!, $cursor: Int) {
-  posts(limit: $limit, cursor: $cursor) {
+query Posts($limit: Float!, $offset: Int) {
+  posts(limit: $limit, offset: $offset) {
     hasMore
     posts {
       ...RegularPost

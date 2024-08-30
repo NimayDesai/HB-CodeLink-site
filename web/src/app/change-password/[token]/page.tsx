@@ -59,7 +59,12 @@ export default function ChangePassword({
                 placeholder="new password"
                 type="password"
               />
-              <Button mt={4} type="submit" colorScheme="green">
+              <Button
+                mt={4}
+                isLoading={isSubmitting}
+                type="submit"
+                colorScheme="green"
+              >
                 Change Password
               </Button>
             </Form>

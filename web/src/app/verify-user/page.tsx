@@ -6,7 +6,7 @@ import {
 } from "@/gql/generated/graphql";
 import { useIsAuth } from "@/utils/useIsAuth";
 import { Alert, AlertIcon, Box } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const VerifyUser = () => {
   useIsAuth();
@@ -23,7 +23,9 @@ const VerifyUser = () => {
       setComplete(true);
     }
   };
-  verify();
+  useEffect(() => {
+    verify();
+  }, [data?.me?.email]);
 
   return (
     <>

@@ -22,6 +22,7 @@ import {
 import { isAuth } from "../utils/isAuth";
 import { sendEmail } from "../utils/sendEmail";
 import { v4 } from "uuid";
+import { resolve } from "path";
 
 declare module "express-session" {
   export interface SessionData {
@@ -465,5 +466,23 @@ export class UserResolver {
         resolve(true);
       })
     );
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async deleteUser(@Ctx() { req, res, prisma }: MyContext): Promise<boolean> {
+    await prisma.user.delete({ where: { id: req.session.userId } });
+    return new Promise((resolve) => {
+      req.session.destroy((err) => {
+        res.clearCookie(COOKIE_NAME);
+
+        if (err) {
+          resolve(false);
+          return;
+        }
+
+        resolve(true);
+      });
+    });
   }
 }

@@ -40,7 +40,6 @@ const CreatePost = () => {
             if (!data!.me!.verified) {
               setVerifiedError(true);
             }
-            return;
             const response = await createPost({
               variables: { input: values },
               update: (cache) => {

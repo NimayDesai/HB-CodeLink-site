@@ -16,7 +16,6 @@ import {
   Flex,
   Heading,
   HStack,
-  Image,
   InputGroup,
   Link,
   Spinner,
