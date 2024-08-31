@@ -44,6 +44,13 @@ function Post({ params: p }: { params: { id: string } }) {
   const [createComment] = useCreateCommentMutation();
   const timeAgo = calculateDateDifference(data.post?.createdAt);
   const timeUpdatedAgo = calculateDateDifference(data.post?.updatedAt);
+  const c1 = useColorModeValue("white", "gray.800");
+  const c2 = useColorModeValue("gray.100", "gray.700");
+  const c3 = useColorModeValue("gray.600", "gray.300");
+  const c4 = useColorModeValue("gray.100", "gray.700");
+  const c5 = useColorModeValue("white", "gray.800");
+  const c6 = useColorModeValue("white", "gray.800");
+  const c7 = useColorModeValue("gray.100", "gray.700");
 
   return (
     <>
@@ -54,10 +61,10 @@ function Post({ params: p }: { params: { id: string } }) {
             <Box>
               <Box
                 p={4}
-                bg={useColorModeValue("white", "gray.800")}
+                bg={c1}
                 rounded="xl"
                 borderWidth="1px"
-                borderColor={useColorModeValue("gray.100", "gray.700")}
+                borderColor={c2}
                 textAlign={"left"}
                 _hover={{ shadow: "lg" }}
               >
@@ -117,10 +124,7 @@ function Post({ params: p }: { params: { id: string } }) {
                   >
                     Content:
                   </Text>
-                  <Text
-                    fontSize={"md"}
-                    color={useColorModeValue("gray.600", "gray.300")}
-                  >
+                  <Text fontSize={"md"} color={c3}>
                     {data.post?.content}
                   </Text>
                 </Box>
@@ -147,10 +151,10 @@ function Post({ params: p }: { params: { id: string } }) {
                       <HStack
                         direction={{ base: "column", md: "row" }}
                         m="auto"
-                        bg={useColorModeValue("white", "gray.800")}
+                        bg={c6}
                         rounded="xl"
                         borderWidth="1px"
-                        borderColor={useColorModeValue("gray.100", "gray.700")}
+                        borderColor={c4}
                         w="100%"
                         h="100%"
                         textAlign="left"
@@ -212,13 +216,10 @@ function Post({ params: p }: { params: { id: string } }) {
                         <HStack
                           p={4}
                           mt={8}
-                          bg={useColorModeValue("white", "gray.800")}
+                          bg={c5}
                           rounded="xl"
                           borderWidth="1px"
-                          borderColor={useColorModeValue(
-                            "gray.100",
-                            "gray.700"
-                          )}
+                          borderColor={c7}
                           w="100%"
                           h="100%"
                           textAlign="left"

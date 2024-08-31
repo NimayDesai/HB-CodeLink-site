@@ -12,27 +12,26 @@ import {
   IconButton,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Spacer,
   Text,
   useColorMode,
   useColorModeValue,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { FaUser } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { MdAdd, MdForum, MdLogin, MdLogout } from "react-icons/md";
+import { MdForum, MdLogin, MdLogout, MdSettings } from "react-icons/md";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 
 const Navbar = () => {
-  const { onOpen } = useDisclosure();
   const { data } = useMeQuery();
   const [logout] = useLogoutMutation();
   const apolloClient = useApolloClient();
   const c1 = useColorMode();
+  const router = useRouter();
 
   return (
     <Container
@@ -121,7 +120,14 @@ const Navbar = () => {
                     name={data.me.name}
                     src={data.me.imageUri ? data.me.imageUri : undefined}
                   />
-                  <Link href={"/settings/security"}>{data.me.name}</Link>
+                  <Link href={"/settings/security"}>
+                    {data.me.name}{" "}
+                    {data.me.isAdmin ? (
+                      <Button size={"sm"} colorScheme="red" mx={2}>
+                        Admin
+                      </Button>
+                    ) : null}
+                  </Link>
                   <Button
                     bgGradient="linear(to-l, #7928CA,#FF0080)"
                     color="white"
@@ -157,12 +163,12 @@ const Navbar = () => {
                   _focus={{ boxShadow: "outline" }}
                 />
                 <MenuList fontSize="sm" zIndex={5}>
-                  <MenuItem icon={<MdAdd />} onClick={onOpen}>
-                    <Link href="/forum" textShadow="1px 1px #9c1786">
-                      Forum (Coming Soon)
-                    </Link>
+                  <MenuItem
+                    icon={<MdForum />}
+                    onClick={() => router.push("/forum")}
+                  >
+                    <Link href="/forum">Forum (Coming Soon)</Link>
                   </MenuItem>
-                  <MenuDivider />
                   {!data?.me ? (
                     <>
                       <MenuItem>
@@ -174,8 +180,17 @@ const Navbar = () => {
                     </>
                   ) : (
                     <>
+                      <MenuItem
+                        icon={<MdSettings />}
+                        onClick={() => router.push("/settings/security")}
+                      >
+                        <Link href="/settings/security">Account Settings</Link>
+                      </MenuItem>
                       <MenuItem>
-                        <Text>Logged in as {data.me.username}</Text>
+                        <Text>
+                          Logged in as {data.me.username}{" "}
+                          {data.me.isAdmin ? <Button>Admin</Button> : null}
+                        </Text>
                       </MenuItem>
                       <MenuItem>
                         <Text

@@ -6,7 +6,7 @@ import {
   useDeletePostAdminMutation,
   useDeletePostMutation,
   useMeQuery,
-  usePostCountQuery,
+  usePostAnnouncementCountQuery,
   usePostsQuery,
 } from "@/gql/generated/graphql";
 import { DeleteIcon } from "@chakra-ui/icons";
@@ -33,19 +33,21 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
   const textColor = useColorModeValue("gray.500", "gray.200");
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
-  const { data } = usePostsQuery({
+  const { data, refetch } = usePostsQuery({
     variables: {
       limit: 10,
-      type: "announcements",
+      type: "announcement",
       offset: (parseInt(p.page) - 1) * 10,
     },
   });
   const router = useRouter();
-  const { data: postCountData } = usePostCountQuery();
+  const { data: postCountData } = usePostAnnouncementCountQuery();
   const { data: meData } = useMeQuery();
   const [deletePost] = useDeletePostMutation();
   const [deletePostAdmin] = useDeletePostAdminMutation();
-
+  refetch();
+  const c1 = useColorModeValue("white", "gray.800");
+  const c2 = useColorModeValue("gray.100", "gray.700");
   return (
     <>
       <NavBar />
@@ -54,7 +56,7 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
           <Heading textAlign={"center"}>Announcements Forum</Heading>
           <Flex ml="auto" alignItems={"right"}>
             {meData?.me?.isAdmin ? (
-              <Button as={Link} href={"/create-post"} textAlign={"right"}>
+              <Button as={Link} href={"/create-post/admin"} textAlign={"right"}>
                 Create Post
               </Button>
             ) : null}
@@ -67,10 +69,10 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
               <chakra.div onClick={toggleOpen} key={p.id}>
                 <HStack
                   p={4}
-                  bg={useColorModeValue("white", "gray.800")}
+                  bg={c1}
                   rounded="xl"
                   borderWidth="1px"
-                  borderColor={useColorModeValue("gray.100", "gray.700")}
+                  borderColor={c2}
                   w="100%"
                   h="100%"
                   textAlign="left"
@@ -152,7 +154,7 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                 </HStack>
               </chakra.div>
             ))}
-            {data && postCountData?.postCount ? (
+            {data && postCountData?.postAnnouncementCount ? (
               <Flex
                 as="nav"
                 aria-label="Pagination"
@@ -164,7 +166,9 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                 <PaginationButton
                   onClick={() => {
                     parseInt(p.page) > 1
-                      ? router.push(`/forum/general/${parseInt(p.page) - 1}`)
+                      ? router.push(
+                          `/forum/announcements/${parseInt(p.page) - 1}`
+                        )
                       : undefined;
                   }}
                   borderTopLeftRadius="md"
@@ -173,23 +177,61 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                   Previous
                 </PaginationButton>
                 {parseInt(p.page) ==
-                Math.ceil(postCountData!.postCount / 10) ? (
-                  <PaginationButton>{parseInt(p.page) - 2}</PaginationButton>
+                  Math.ceil(postCountData!.postAnnouncementCount / 10) &&
+                Math.ceil(postCountData.postAnnouncementCount / 10) > 2 ? (
+                  <PaginationButton
+                    onClick={() => {
+                      router.push(
+                        `/forum/announcements/${parseInt(p.page) - 2}`
+                      );
+                    }}
+                  >
+                    {parseInt(p.page) - 2}
+                  </PaginationButton>
                 ) : null}
                 {parseInt(p.page) > 1 ? (
-                  <PaginationButton>{parseInt(p.page) - 1}</PaginationButton>
+                  <PaginationButton
+                    onClick={() =>
+                      router.push(
+                        `/forum/announcements/${parseInt(p.page) - 1}`
+                      )
+                    }
+                  >
+                    {parseInt(p.page) - 1}
+                  </PaginationButton>
                 ) : null}
                 <PaginationButton isActive>{p.page}</PaginationButton>
-                {parseInt(p.page) < Math.ceil(postCountData!.postCount / 10) ? (
-                  <PaginationButton>{parseInt(p.page) + 1}</PaginationButton>
+                {parseInt(p.page) <
+                Math.ceil(postCountData!.postAnnouncementCount / 10) ? (
+                  <PaginationButton
+                    onClick={() =>
+                      router.push(
+                        `/forum/announcements/${parseInt(p.page) + 1}`
+                      )
+                    }
+                  >
+                    {parseInt(p.page) + 1}
+                  </PaginationButton>
                 ) : null}
-                {parseInt(p.page) == 1 ? (
-                  <PaginationButton>{parseInt(p.page) + 2}</PaginationButton>
+                {parseInt(p.page) == 1 &&
+                Math.ceil(postCountData.postAnnouncementCount / 10) > 2 ? (
+                  <PaginationButton
+                    onClick={() =>
+                      router.push(
+                        `/forum/announcements/${parseInt(p.page) + 2}`
+                      )
+                    }
+                  >
+                    {parseInt(p.page) + 2}
+                  </PaginationButton>
                 ) : null}
                 <PaginationButton
                   onClick={() => {
-                    parseInt(p.page) < Math.ceil(postCountData!.postCount / 10)
-                      ? router.push(`/forum/general/${parseInt(p.page) + 1}`)
+                    parseInt(p.page) <
+                    Math.ceil(postCountData!.postAnnouncementCount / 10)
+                      ? router.push(
+                          `/forum/announcements/${parseInt(p.page) + 1}`
+                        )
                       : undefined;
                   }}
                   borderTopLeftRadius="md"

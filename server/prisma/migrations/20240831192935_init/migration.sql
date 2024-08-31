@@ -8,6 +8,7 @@ CREATE TABLE "User" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "imageUri" TEXT,
     "lastPosted" TIMESTAMP(3),
+    "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "verified" BOOLEAN NOT NULL DEFAULT false,
     "password" TEXT NOT NULL,
 
@@ -23,6 +24,7 @@ CREATE TABLE "Post" (
     "content" TEXT NOT NULL,
     "authorId" INTEGER NOT NULL,
     "points" INTEGER NOT NULL DEFAULT 0,
+    "type" TEXT NOT NULL DEFAULT 'general',
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
 );

@@ -4,7 +4,6 @@ import {
   MeDocument,
   MeQuery,
   useRegisterAdminMutation,
-  useRegisterMutation,
 } from "@/gql/generated/graphql";
 import { toErrorMap } from "@/utils/toErrorMap";
 import {

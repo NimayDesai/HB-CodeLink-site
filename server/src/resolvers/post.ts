@@ -157,8 +157,12 @@ export class PostResolver {
   }
 
   @Query(() => Int)
-  async postCount(@Ctx() { prisma }: MyContext): Promise<number> {
-    return prisma.post.count();
+  async postGeneralCount(@Ctx() { prisma }: MyContext): Promise<number> {
+    return prisma.post.count({ where: { type: "general" } });
+  }
+  @Query(() => Int)
+  async postAnnouncementCount(@Ctx() { prisma }: MyContext): Promise<number> {
+    return prisma.post.count({ where: { type: "announcement" } });
   }
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
@@ -305,7 +309,6 @@ export class PostResolver {
     const user = await prisma.user.findUnique({
       where: { id: req.session.userId },
     });
-    checkIfVerified(user as User);
 
     if (!user?.isAdmin) {
       throw new Error("not admin");

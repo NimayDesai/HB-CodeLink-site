@@ -20,7 +20,7 @@ export const VerifyModal: React.FC<{}> = ({}) => {
     if (data?.me && !data.me.verified) {
       onOpen();
     }
-  }, [data?.me]);
+  }, [data?.me, onOpen]);
 
   const router = useRouter();
   return (

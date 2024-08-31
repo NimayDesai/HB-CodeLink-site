@@ -6,7 +6,7 @@ import {
   useDeletePostAdminMutation,
   useDeletePostMutation,
   useMeQuery,
-  usePostCountQuery,
+  usePostGeneralCountQuery,
   usePostsQuery,
 } from "@/gql/generated/graphql";
 import { DeleteIcon } from "@chakra-ui/icons";
@@ -22,7 +22,6 @@ import {
   HStack,
   IconButton,
   Stack,
-  Text,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
@@ -30,10 +29,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Forum = ({ params: p }: { params: { page: string } }) => {
-  const textColor = useColorModeValue("gray.500", "gray.200");
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
-  const { data } = usePostsQuery({
+  const { data, refetch } = usePostsQuery({
     variables: {
       limit: 10,
       type: "general",
@@ -41,11 +39,13 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
     },
   });
   const router = useRouter();
-  const { data: postCountData } = usePostCountQuery();
+  const { data: postCountData } = usePostGeneralCountQuery();
   const { data: meData } = useMeQuery();
   const [deletePost] = useDeletePostMutation();
   const [deletePostAdmin] = useDeletePostAdminMutation();
-
+  refetch();
+  const c1 = useColorModeValue("white", "gray.800");
+  const c2 = useColorModeValue("gray.100", "gray.700");
   return (
     <>
       <NavBar />
@@ -65,10 +65,10 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
               <chakra.div onClick={toggleOpen} key={p.id}>
                 <HStack
                   p={4}
-                  bg={useColorModeValue("white", "gray.800")}
+                  bg={c1}
                   rounded="xl"
                   borderWidth="1px"
-                  borderColor={useColorModeValue("gray.100", "gray.700")}
+                  borderColor={c2}
                   w="100%"
                   h="100%"
                   textAlign="left"
@@ -95,22 +95,6 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                           {p.title}
                         </Heading>
                       </HStack>
-
-                      {!isOpen && (
-                        <Text
-                          fontSize="sm"
-                          color={textColor}
-                          noOfLines={{ base: 2 }}
-                        >
-                          {p.content}
-                        </Text>
-                      )}
-
-                      {isOpen && (
-                        <Text fontSize="sm" color={textColor}>
-                          {p.content}
-                        </Text>
-                      )}
                     </VStack>
                   </VStack>
                   {meData?.me?.id === p.author.id && !meData.me.isAdmin ? (
@@ -150,7 +134,7 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                 </HStack>
               </chakra.div>
             ))}
-            {data && postCountData?.postCount ? (
+            {data && postCountData?.postGeneralCount ? (
               <Flex
                 as="nav"
                 aria-label="Pagination"
@@ -171,22 +155,50 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                   Previous
                 </PaginationButton>
                 {parseInt(p.page) ==
-                Math.ceil(postCountData!.postCount / 10) ? (
-                  <PaginationButton>{parseInt(p.page) - 2}</PaginationButton>
+                  Math.ceil(postCountData!.postGeneralCount / 10) &&
+                Math.ceil(postCountData.postGeneralCount / 10) > 2 ? (
+                  <PaginationButton
+                    onClick={() =>
+                      router.push(`/forum/general/${parseInt(p.page) - 2}`)
+                    }
+                  >
+                    {parseInt(p.page) - 2}
+                  </PaginationButton>
                 ) : null}
                 {parseInt(p.page) > 1 ? (
-                  <PaginationButton>{parseInt(p.page) - 1}</PaginationButton>
+                  <PaginationButton
+                    onClick={() =>
+                      router.push(`/forum/general/${parseInt(p.page) - 1}`)
+                    }
+                  >
+                    {parseInt(p.page) - 1}
+                  </PaginationButton>
                 ) : null}
                 <PaginationButton isActive>{p.page}</PaginationButton>
-                {parseInt(p.page) < Math.ceil(postCountData!.postCount / 10) ? (
-                  <PaginationButton>{parseInt(p.page) + 1}</PaginationButton>
+                {parseInt(p.page) <
+                Math.ceil(postCountData!.postGeneralCount / 10) ? (
+                  <PaginationButton
+                    onClick={() =>
+                      router.push(`/forum/general/${parseInt(p.page) + 1}`)
+                    }
+                  >
+                    {parseInt(p.page) + 1}
+                  </PaginationButton>
                 ) : null}
-                {parseInt(p.page) == 1 ? (
-                  <PaginationButton>{parseInt(p.page) + 2}</PaginationButton>
+                {parseInt(p.page) == 1 &&
+                Math.ceil(postCountData.postGeneralCount / 10) > 2 ? (
+                  <PaginationButton
+                    onClick={() =>
+                      router.push(`/forum/general/${parseInt(p.page) + 2}`)
+                    }
+                  >
+                    {parseInt(p.page) + 2}
+                  </PaginationButton>
                 ) : null}
                 <PaginationButton
                   onClick={() => {
-                    parseInt(p.page) < Math.ceil(postCountData!.postCount / 10)
+                    parseInt(p.page) <
+                    Math.ceil(postCountData!.postGeneralCount / 10)
                       ? router.push(`/forum/general/${parseInt(p.page) + 1}`)
                       : undefined;
                   }}

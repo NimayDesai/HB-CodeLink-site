@@ -1,28 +1,27 @@
-import { User } from "../../prisma/generated";
 import argon2 from "argon2";
 import {
   Arg,
   Ctx,
-  Mutation,
   Field,
+  FieldResolver,
   InputType,
+  Mutation,
   ObjectType,
   Query,
   Resolver,
-  FieldResolver,
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { MyContext } from "../types";
+import { v4 } from "uuid";
+import { User } from "../../prisma/generated";
 import {
   COOKIE_NAME,
   FORGET_PASSWORD_PREFIX,
   VERIFY_PREFIX,
 } from "../constants";
+import { MyContext } from "../types";
 import { isAuth } from "../utils/isAuth";
 import { sendEmail } from "../utils/sendEmail";
-import { v4 } from "uuid";
-import { resolve } from "path";
 
 declare module "express-session" {
   export interface SessionData {

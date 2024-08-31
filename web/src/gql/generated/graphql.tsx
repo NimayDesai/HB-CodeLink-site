@@ -470,7 +470,8 @@ export type Query = {
   hello: Scalars['String']['output'];
   me?: Maybe<User>;
   post?: Maybe<Post>;
-  postCount: Scalars['Int']['output'];
+  postAnnouncementCount: Scalars['Int']['output'];
+  postGeneralCount: Scalars['Int']['output'];
   posts: PaginatedPosts;
 };
 
@@ -889,10 +890,15 @@ export type PostQueryVariables = Exact<{
 
 export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, type: string, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } } | null };
 
-export type PostCountQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostAnnouncementCountQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostCountQuery = { __typename?: 'Query', postCount: number };
+export type PostAnnouncementCountQuery = { __typename?: 'Query', postAnnouncementCount: number };
+
+export type PostGeneralCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostGeneralCountQuery = { __typename?: 'Query', postGeneralCount: number };
 
 export type PostsQueryVariables = Exact<{
   limit: Scalars['Float']['input'];
@@ -1626,43 +1632,80 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostSuspenseQueryHookResult = ReturnType<typeof usePostSuspenseQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
-export const PostCountDocument = gql`
-    query PostCount {
-  postCount
+export const PostAnnouncementCountDocument = gql`
+    query PostAnnouncementCount {
+  postAnnouncementCount
 }
     `;
 
 /**
- * __usePostCountQuery__
+ * __usePostAnnouncementCountQuery__
  *
- * To run a query within a React component, call `usePostCountQuery` and pass it any options that fit your needs.
- * When your component renders, `usePostCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePostAnnouncementCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostAnnouncementCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePostCountQuery({
+ * const { data, loading, error } = usePostAnnouncementCountQuery({
  *   variables: {
  *   },
  * });
  */
-export function usePostCountQuery(baseOptions?: Apollo.QueryHookOptions<PostCountQuery, PostCountQueryVariables>) {
+export function usePostAnnouncementCountQuery(baseOptions?: Apollo.QueryHookOptions<PostAnnouncementCountQuery, PostAnnouncementCountQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PostCountQuery, PostCountQueryVariables>(PostCountDocument, options);
+        return Apollo.useQuery<PostAnnouncementCountQuery, PostAnnouncementCountQueryVariables>(PostAnnouncementCountDocument, options);
       }
-export function usePostCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostCountQuery, PostCountQueryVariables>) {
+export function usePostAnnouncementCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostAnnouncementCountQuery, PostAnnouncementCountQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PostCountQuery, PostCountQueryVariables>(PostCountDocument, options);
+          return Apollo.useLazyQuery<PostAnnouncementCountQuery, PostAnnouncementCountQueryVariables>(PostAnnouncementCountDocument, options);
         }
-export function usePostCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PostCountQuery, PostCountQueryVariables>) {
+export function usePostAnnouncementCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PostAnnouncementCountQuery, PostAnnouncementCountQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<PostCountQuery, PostCountQueryVariables>(PostCountDocument, options);
+          return Apollo.useSuspenseQuery<PostAnnouncementCountQuery, PostAnnouncementCountQueryVariables>(PostAnnouncementCountDocument, options);
         }
-export type PostCountQueryHookResult = ReturnType<typeof usePostCountQuery>;
-export type PostCountLazyQueryHookResult = ReturnType<typeof usePostCountLazyQuery>;
-export type PostCountSuspenseQueryHookResult = ReturnType<typeof usePostCountSuspenseQuery>;
-export type PostCountQueryResult = Apollo.QueryResult<PostCountQuery, PostCountQueryVariables>;
+export type PostAnnouncementCountQueryHookResult = ReturnType<typeof usePostAnnouncementCountQuery>;
+export type PostAnnouncementCountLazyQueryHookResult = ReturnType<typeof usePostAnnouncementCountLazyQuery>;
+export type PostAnnouncementCountSuspenseQueryHookResult = ReturnType<typeof usePostAnnouncementCountSuspenseQuery>;
+export type PostAnnouncementCountQueryResult = Apollo.QueryResult<PostAnnouncementCountQuery, PostAnnouncementCountQueryVariables>;
+export const PostGeneralCountDocument = gql`
+    query PostGeneralCount {
+  postGeneralCount
+}
+    `;
+
+/**
+ * __usePostGeneralCountQuery__
+ *
+ * To run a query within a React component, call `usePostGeneralCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostGeneralCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostGeneralCountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePostGeneralCountQuery(baseOptions?: Apollo.QueryHookOptions<PostGeneralCountQuery, PostGeneralCountQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PostGeneralCountQuery, PostGeneralCountQueryVariables>(PostGeneralCountDocument, options);
+      }
+export function usePostGeneralCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostGeneralCountQuery, PostGeneralCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PostGeneralCountQuery, PostGeneralCountQueryVariables>(PostGeneralCountDocument, options);
+        }
+export function usePostGeneralCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PostGeneralCountQuery, PostGeneralCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<PostGeneralCountQuery, PostGeneralCountQueryVariables>(PostGeneralCountDocument, options);
+        }
+export type PostGeneralCountQueryHookResult = ReturnType<typeof usePostGeneralCountQuery>;
+export type PostGeneralCountLazyQueryHookResult = ReturnType<typeof usePostGeneralCountLazyQuery>;
+export type PostGeneralCountSuspenseQueryHookResult = ReturnType<typeof usePostGeneralCountSuspenseQuery>;
+export type PostGeneralCountQueryResult = Apollo.QueryResult<PostGeneralCountQuery, PostGeneralCountQueryVariables>;
 export const PostsDocument = gql`
     query Posts($limit: Float!, $offset: Int, $type: String!) {
   posts(limit: $limit, offset: $offset, type: $type) {

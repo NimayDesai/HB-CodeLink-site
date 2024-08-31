@@ -2,10 +2,11 @@
 
 import { InputField } from "@/components/InputField";
 import Navbar from "@/components/NavBar";
-import { VerifyModal } from "@/components/VerifyModal";
-import { useCreatePostMutation, useMeQuery } from "@/gql/generated/graphql";
+import {
+  useCreateAnnouncementMutation,
+  useMeQuery,
+} from "@/gql/generated/graphql";
 import { useIsAuth } from "@/utils/useIsAuth";
-import { Link } from "@chakra-ui/next-js";
 import {
   Alert,
   AlertIcon,
@@ -21,7 +22,7 @@ import { useState } from "react";
 const CreatePost = () => {
   useIsAuth();
 
-  const [createPost, { loading }] = useCreatePostMutation();
+  const [createAnnouncement, { loading }] = useCreateAnnouncementMutation();
   const router = useRouter();
   const [adminError, setAdminError] = useState(false);
   const { data } = useMeQuery();
@@ -31,7 +32,7 @@ const CreatePost = () => {
       <Navbar />
       <Container maxW="5xl" p={{ base: 5, md: 10 }}>
         <Heading size="xl" mb="4" textAlign="center">
-          Create Post
+          Create Announcement
         </Heading>
         <Formik
           initialValues={{ title: "", content: "" }}
@@ -39,7 +40,7 @@ const CreatePost = () => {
             if (!data!.me!.isAdmin) {
               setAdminError(true);
             }
-            const response = await createPost({
+            const response = await createAnnouncement({
               variables: { input: values },
               update: (cache) => {
                 cache.evict({ fieldName: "posts:{}" });

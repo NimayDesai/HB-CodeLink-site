@@ -18,6 +18,7 @@ import {
   AlertDialogOverlay,
   Box,
   Button,
+  Flex,
   Heading,
   useDisclosure,
   VStack,
@@ -32,7 +33,7 @@ const AccountSettings = () => {
   const [deleteUser] = useDeleteUserMutation();
   const apolloClient = useApolloClient();
   return (
-    <Box>
+    <Box textAlign={"center"}>
       <SimpleSidebar>
         <VerifyModal />
         <Box m="auto" maxW="4xl">
@@ -100,9 +101,14 @@ const AccountSettings = () => {
               </Form>
             )}
           </Formik>
-          <Button colorScheme="red" onClick={onOpen}>
-            Delete Account
-          </Button>
+          <Heading size="2xl" textAlign={"center"} mt={96}>
+            DANGER ZONE
+          </Heading>
+          <Flex m="auto">
+            <Button colorScheme="red" m="auto" mt={24} onClick={onOpen}>
+              Delete Account
+            </Button>
+          </Flex>
           <AlertDialog
             isOpen={isOpen}
             leastDestructiveRef={cancelRef}
@@ -115,7 +121,7 @@ const AccountSettings = () => {
                 </AlertDialogHeader>
 
                 <AlertDialogBody>
-                  Are you sure? You can't undo this action afterwards.
+                  Are you sure? You cant undo this action afterwards.
                 </AlertDialogBody>
 
                 <AlertDialogFooter>
