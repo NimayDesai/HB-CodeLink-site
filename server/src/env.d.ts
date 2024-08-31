@@ -8,6 +8,7 @@ declare global {
       SENDGRID_API_KEY: string;
       SMTP_USERNAME: string;
       SMTP_PASSWORD: string;
+      ADMIN_PASSWORD: string;
     }
   }
 }

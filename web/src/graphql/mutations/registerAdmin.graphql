@@ -1,0 +1,8 @@
+mutation RegisterAdmin(
+  $adminPass: String!
+  $options: UsernamePasswordEmailInput!
+) {
+  registerAdmin(adminPass: $adminPass, options: $options) {
+    ...RegularUserResponse
+  }
+}

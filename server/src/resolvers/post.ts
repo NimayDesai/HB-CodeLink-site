@@ -138,6 +138,24 @@ export class PostResolver {
     return true;
   }
 
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async deleteCommentAdmin(
+    @Arg("id", () => Int) id: number,
+    @Arg("postId", () => Int) postId: number,
+    @Ctx() { req, prisma }: MyContext
+  ): Promise<boolean> {
+    const user = await prisma.user.findUnique({
+      where: { id: req.session.userId },
+    });
+    if (!user?.isAdmin) {
+      throw new Error("not admin");
+    }
+
+    await prisma.comment.delete({ where: { id, postId } });
+    return true;
+  }
+
   @Query(() => Int)
   async postCount(@Ctx() { prisma }: MyContext): Promise<number> {
     return prisma.post.count();
@@ -213,6 +231,7 @@ export class PostResolver {
   @Query(() => PaginatedPosts)
   async posts(
     @Arg("limit") limit: number,
+    @Arg("type") type: string,
     @Arg("offset", () => Int, { nullable: true }) offset: number | undefined,
     @Ctx() { prisma }: MyContext
   ): Promise<PaginatedPosts> {
@@ -226,6 +245,9 @@ export class PostResolver {
       },
       orderBy: {
         id: "asc",
+      },
+      where: {
+        type,
       },
     });
     return {
@@ -270,6 +292,34 @@ export class PostResolver {
     });
   }
 
+  @UseMiddleware(isAuth)
+  @Mutation(() => Post)
+  async createAnnouncement(
+    @Arg("input", () => PostInput) input: PostInput,
+    @Ctx() { req, prisma }: MyContext
+  ): Promise<Post> {
+    if (!req.session.userId) {
+      throw new Error("not logged in");
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: req.session.userId },
+    });
+    checkIfVerified(user as User);
+
+    if (!user?.isAdmin) {
+      throw new Error("not admin");
+    }
+
+    return prisma.post.create({
+      data: {
+        ...input,
+        authorId: req.session.userId,
+        type: "announcement",
+      },
+    });
+  }
+
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   async deletePost(
@@ -282,6 +332,23 @@ export class PostResolver {
         authorId: req.session.userId,
       },
     });
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async deletePostAdmin(
+    @Arg("id", () => Int) id: number,
+    @Ctx() { req, prisma }: MyContext
+  ): Promise<boolean> {
+    const user = await prisma.user.findUnique({
+      where: { id: req.session.userId },
+    });
+    if (!user?.isAdmin) {
+      throw new Error("not admin");
+    }
+
+    await prisma.post.delete({ where: { id } });
     return true;
   }
 }

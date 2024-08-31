@@ -136,15 +136,19 @@ export type Mutation = {
   __typename?: 'Mutation';
   changeInfo: UserResponse;
   changePassword: UserResponse;
+  createAnnouncement: Post;
   createComment: Comment;
   createPost: Post;
   deleteComment: Scalars['Boolean']['output'];
+  deleteCommentAdmin: Scalars['Boolean']['output'];
   deletePost: Scalars['Boolean']['output'];
+  deletePostAdmin: Scalars['Boolean']['output'];
   deleteUser: Scalars['Boolean']['output'];
   forgotPassword: Scalars['Boolean']['output'];
   login: UserResponse;
   logout: Scalars['Boolean']['output'];
   register: UserResponse;
+  registerAdmin: UserResponse;
   sendVerifyEmail: Scalars['Boolean']['output'];
   uploadImg: UserResponse;
   vefifyUser: UserResponse;
@@ -161,6 +165,11 @@ export type MutationChangeInfoArgs = {
 export type MutationChangePasswordArgs = {
   newPassword: Scalars['String']['input'];
   token: Scalars['String']['input'];
+};
+
+
+export type MutationCreateAnnouncementArgs = {
+  input: PostInput;
 };
 
 
@@ -181,8 +190,19 @@ export type MutationDeleteCommentArgs = {
 };
 
 
+export type MutationDeleteCommentAdminArgs = {
+  id: Scalars['Int']['input'];
+  postId: Scalars['Int']['input'];
+};
+
+
 export type MutationDeletePostArgs = {
   postId: Scalars['Int']['input'];
+};
+
+
+export type MutationDeletePostAdminArgs = {
+  id: Scalars['Int']['input'];
 };
 
 
@@ -198,6 +218,12 @@ export type MutationLoginArgs = {
 
 
 export type MutationRegisterArgs = {
+  options: UsernamePasswordEmailInput;
+};
+
+
+export type MutationRegisterAdminArgs = {
+  adminPass: Scalars['String']['input'];
   options: UsernamePasswordEmailInput;
 };
 
@@ -317,6 +343,7 @@ export type Post = {
   points: Scalars['Int']['output'];
   star: Array<Star>;
   title: Scalars['String']['output'];
+  type: Scalars['String']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
 };
 
@@ -381,6 +408,7 @@ export type PostOrderByWithRelationInput = {
   points?: InputMaybe<SortOrder>;
   star?: InputMaybe<StarOrderByRelationAggregateInput>;
   title?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -396,6 +424,7 @@ export type PostScalarFieldEnum =
   | 'id'
   | 'points'
   | 'title'
+  | 'type'
   | 'updatedAt'
   | '%future added value';
 
@@ -412,6 +441,7 @@ export type PostWhereInput = {
   points?: InputMaybe<IntFilter>;
   star?: InputMaybe<StarListRelationFilter>;
   title?: InputMaybe<StringFilter>;
+  type?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -428,6 +458,7 @@ export type PostWhereUniqueInput = {
   points?: InputMaybe<IntFilter>;
   star?: InputMaybe<StarListRelationFilter>;
   title?: InputMaybe<StringFilter>;
+  type?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -469,6 +500,7 @@ export type QueryPostArgs = {
 export type QueryPostsArgs = {
   limit: Scalars['Float']['input'];
   offset?: InputMaybe<Scalars['Int']['input']>;
+  type: Scalars['String']['input'];
 };
 
 export type QueryMode =
@@ -583,6 +615,7 @@ export type User = {
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   imageUri?: Maybe<Scalars['String']['output']>;
+  isAdmin: Scalars['Boolean']['output'];
   lastPosted?: Maybe<Scalars['DateTimeISO']['output']>;
   name: Scalars['String']['output'];
   posts: Array<Post>;
@@ -650,6 +683,7 @@ export type UserOrderByWithRelationInput = {
   email?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   imageUri?: InputMaybe<SortOrderInput>;
+  isAdmin?: InputMaybe<SortOrder>;
   lastPosted?: InputMaybe<SortOrderInput>;
   name?: InputMaybe<SortOrder>;
   password?: InputMaybe<SortOrder>;
@@ -680,6 +714,7 @@ export type UserWhereInput = {
   email?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   imageUri?: InputMaybe<StringNullableFilter>;
+  isAdmin?: InputMaybe<BoolFilter>;
   lastPosted?: InputMaybe<DateTimeNullableFilter>;
   name?: InputMaybe<StringFilter>;
   password?: InputMaybe<StringFilter>;
@@ -704,15 +739,15 @@ export type UsernamePasswordEmailOptInput = {
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type RegularCommentFragment = { __typename?: 'Comment', id: number, content: string, commenter: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean }, post: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } } };
+export type RegularCommentFragment = { __typename?: 'Comment', id: number, content: string, commenter: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean }, post: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, type: string, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } } };
 
 export type RegularErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type RegularPostFragment = { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } };
+export type RegularPostFragment = { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, type: string, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } };
 
-export type RegularUserFragment = { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean };
+export type RegularUserFragment = { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean };
 
-export type RegularUserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } | null };
+export type RegularUserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } | null };
 
 export type ChangeInfoMutationVariables = Exact<{
   username?: InputMaybe<Scalars['String']['input']>;
@@ -723,7 +758,7 @@ export type ChangeInfoMutationVariables = Exact<{
 }>;
 
 
-export type ChangeInfoMutation = { __typename?: 'Mutation', changeInfo: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } | null } };
+export type ChangeInfoMutation = { __typename?: 'Mutation', changeInfo: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } | null } };
 
 export type ChangePasswordMutationVariables = Exact<{
   token: Scalars['String']['input'];
@@ -731,7 +766,14 @@ export type ChangePasswordMutationVariables = Exact<{
 }>;
 
 
-export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } | null } };
+export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } | null } };
+
+export type CreateAnnouncementMutationVariables = Exact<{
+  input: PostInput;
+}>;
+
+
+export type CreateAnnouncementMutation = { __typename?: 'Mutation', createAnnouncement: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, type: string, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } } };
 
 export type CreateCommentMutationVariables = Exact<{
   postId: Scalars['Int']['input'];
@@ -746,7 +788,21 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, type: string, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } } };
+
+export type DeletePostMutationVariables = Exact<{
+  postId: Scalars['Int']['input'];
+}>;
+
+
+export type DeletePostMutation = { __typename?: 'Mutation', deletePost: boolean };
+
+export type DeletePostAdminMutationVariables = Exact<{
+  deletePostAdminId: Scalars['Int']['input'];
+}>;
+
+
+export type DeletePostAdminMutation = { __typename?: 'Mutation', deletePostAdmin: boolean };
 
 export type DeleteUserMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -766,7 +822,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -781,7 +837,15 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } | null } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } | null } };
+
+export type RegisterAdminMutationVariables = Exact<{
+  adminPass: Scalars['String']['input'];
+  options: UsernamePasswordEmailInput;
+}>;
+
+
+export type RegisterAdminMutation = { __typename?: 'Mutation', registerAdmin: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } | null } };
 
 export type SendVerifyEmailMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -795,7 +859,7 @@ export type UploadImgMutationVariables = Exact<{
 }>;
 
 
-export type UploadImgMutation = { __typename?: 'Mutation', uploadImg: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } | null } };
+export type UploadImgMutation = { __typename?: 'Mutation', uploadImg: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } | null } };
 
 export type VerifyUserMutationVariables = Exact<{
   token: Scalars['String']['input'];
@@ -811,19 +875,19 @@ export type CommentsQueryVariables = Exact<{
 }>;
 
 
-export type CommentsQuery = { __typename?: 'Query', comments: { __typename?: 'PaginatedComments', hasMore: boolean, comments: Array<{ __typename?: 'Comment', id: number, content: string, commenter: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean }, post: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } } }> } };
+export type CommentsQuery = { __typename?: 'Query', comments: { __typename?: 'PaginatedComments', hasMore: boolean, comments: Array<{ __typename?: 'Comment', id: number, content: string, commenter: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean }, post: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, type: string, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } } }> } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } | null };
 
 export type PostQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } } | null };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, type: string, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } } | null };
 
 export type PostCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -833,10 +897,11 @@ export type PostCountQuery = { __typename?: 'Query', postCount: number };
 export type PostsQueryVariables = Exact<{
   limit: Scalars['Float']['input'];
   offset?: InputMaybe<Scalars['Int']['input']>;
+  type: Scalars['String']['input'];
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean } }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, type: string, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } }> } };
 
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
@@ -846,6 +911,7 @@ export const RegularUserFragmentDoc = gql`
   imageUri
   email
   verified
+  isAdmin
 }
     `;
 export const RegularPostFragmentDoc = gql`
@@ -856,6 +922,7 @@ export const RegularPostFragmentDoc = gql`
   title
   content
   points
+  type
   author {
     ...RegularUser
   }
@@ -965,6 +1032,39 @@ export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptio
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export const CreateAnnouncementDocument = gql`
+    mutation CreateAnnouncement($input: PostInput!) {
+  createAnnouncement(input: $input) {
+    ...RegularPost
+  }
+}
+    ${RegularPostFragmentDoc}`;
+export type CreateAnnouncementMutationFn = Apollo.MutationFunction<CreateAnnouncementMutation, CreateAnnouncementMutationVariables>;
+
+/**
+ * __useCreateAnnouncementMutation__
+ *
+ * To run a mutation, you first call `useCreateAnnouncementMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAnnouncementMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAnnouncementMutation, { data, loading, error }] = useCreateAnnouncementMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateAnnouncementMutation(baseOptions?: Apollo.MutationHookOptions<CreateAnnouncementMutation, CreateAnnouncementMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateAnnouncementMutation, CreateAnnouncementMutationVariables>(CreateAnnouncementDocument, options);
+      }
+export type CreateAnnouncementMutationHookResult = ReturnType<typeof useCreateAnnouncementMutation>;
+export type CreateAnnouncementMutationResult = Apollo.MutationResult<CreateAnnouncementMutation>;
+export type CreateAnnouncementMutationOptions = Apollo.BaseMutationOptions<CreateAnnouncementMutation, CreateAnnouncementMutationVariables>;
 export const CreateCommentDocument = gql`
     mutation CreateComment($postId: Int!, $content: String!) {
   createComment(postId: $postId, content: $content) {
@@ -1038,6 +1138,68 @@ export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const DeletePostDocument = gql`
+    mutation DeletePost($postId: Int!) {
+  deletePost(postId: $postId)
+}
+    `;
+export type DeletePostMutationFn = Apollo.MutationFunction<DeletePostMutation, DeletePostMutationVariables>;
+
+/**
+ * __useDeletePostMutation__
+ *
+ * To run a mutation, you first call `useDeletePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePostMutation, { data, loading, error }] = useDeletePostMutation({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useDeletePostMutation(baseOptions?: Apollo.MutationHookOptions<DeletePostMutation, DeletePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument, options);
+      }
+export type DeletePostMutationHookResult = ReturnType<typeof useDeletePostMutation>;
+export type DeletePostMutationResult = Apollo.MutationResult<DeletePostMutation>;
+export type DeletePostMutationOptions = Apollo.BaseMutationOptions<DeletePostMutation, DeletePostMutationVariables>;
+export const DeletePostAdminDocument = gql`
+    mutation DeletePostAdmin($deletePostAdminId: Int!) {
+  deletePostAdmin(id: $deletePostAdminId)
+}
+    `;
+export type DeletePostAdminMutationFn = Apollo.MutationFunction<DeletePostAdminMutation, DeletePostAdminMutationVariables>;
+
+/**
+ * __useDeletePostAdminMutation__
+ *
+ * To run a mutation, you first call `useDeletePostAdminMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePostAdminMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePostAdminMutation, { data, loading, error }] = useDeletePostAdminMutation({
+ *   variables: {
+ *      deletePostAdminId: // value for 'deletePostAdminId'
+ *   },
+ * });
+ */
+export function useDeletePostAdminMutation(baseOptions?: Apollo.MutationHookOptions<DeletePostAdminMutation, DeletePostAdminMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePostAdminMutation, DeletePostAdminMutationVariables>(DeletePostAdminDocument, options);
+      }
+export type DeletePostAdminMutationHookResult = ReturnType<typeof useDeletePostAdminMutation>;
+export type DeletePostAdminMutationResult = Apollo.MutationResult<DeletePostAdminMutation>;
+export type DeletePostAdminMutationOptions = Apollo.BaseMutationOptions<DeletePostAdminMutation, DeletePostAdminMutationVariables>;
 export const DeleteUserDocument = gql`
     mutation DeleteUser {
   deleteUser
@@ -1201,6 +1363,40 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const RegisterAdminDocument = gql`
+    mutation RegisterAdmin($adminPass: String!, $options: UsernamePasswordEmailInput!) {
+  registerAdmin(adminPass: $adminPass, options: $options) {
+    ...RegularUserResponse
+  }
+}
+    ${RegularUserResponseFragmentDoc}`;
+export type RegisterAdminMutationFn = Apollo.MutationFunction<RegisterAdminMutation, RegisterAdminMutationVariables>;
+
+/**
+ * __useRegisterAdminMutation__
+ *
+ * To run a mutation, you first call `useRegisterAdminMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterAdminMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerAdminMutation, { data, loading, error }] = useRegisterAdminMutation({
+ *   variables: {
+ *      adminPass: // value for 'adminPass'
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useRegisterAdminMutation(baseOptions?: Apollo.MutationHookOptions<RegisterAdminMutation, RegisterAdminMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterAdminMutation, RegisterAdminMutationVariables>(RegisterAdminDocument, options);
+      }
+export type RegisterAdminMutationHookResult = ReturnType<typeof useRegisterAdminMutation>;
+export type RegisterAdminMutationResult = Apollo.MutationResult<RegisterAdminMutation>;
+export type RegisterAdminMutationOptions = Apollo.BaseMutationOptions<RegisterAdminMutation, RegisterAdminMutationVariables>;
 export const SendVerifyEmailDocument = gql`
     mutation SendVerifyEmail($email: String!) {
   sendVerifyEmail(email: $email)
@@ -1468,8 +1664,8 @@ export type PostCountLazyQueryHookResult = ReturnType<typeof usePostCountLazyQue
 export type PostCountSuspenseQueryHookResult = ReturnType<typeof usePostCountSuspenseQuery>;
 export type PostCountQueryResult = Apollo.QueryResult<PostCountQuery, PostCountQueryVariables>;
 export const PostsDocument = gql`
-    query Posts($limit: Float!, $offset: Int) {
-  posts(limit: $limit, offset: $offset) {
+    query Posts($limit: Float!, $offset: Int, $type: String!) {
+  posts(limit: $limit, offset: $offset, type: $type) {
     hasMore
     posts {
       ...RegularPost
@@ -1492,6 +1688,7 @@ export const PostsDocument = gql`
  *   variables: {
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
+ *      type: // value for 'type'
  *   },
  * });
  */

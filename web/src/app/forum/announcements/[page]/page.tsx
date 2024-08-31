@@ -36,7 +36,7 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
   const { data } = usePostsQuery({
     variables: {
       limit: 10,
-      type: "general",
+      type: "announcements",
       offset: (parseInt(p.page) - 1) * 10,
     },
   });
@@ -51,11 +51,13 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
       <NavBar />
       <Container maxW="6xl" p={{ base: 5, md: 10 }}>
         <HStack>
-          <Heading textAlign={"center"}>General Forum</Heading>
+          <Heading textAlign={"center"}>Announcements Forum</Heading>
           <Flex ml="auto" alignItems={"right"}>
-            <Button as={Link} href={"/create-post"} textAlign={"right"}>
-              Create Post
-            </Button>
+            {meData?.me?.isAdmin ? (
+              <Button as={Link} href={"/create-post"} textAlign={"right"}>
+                Create Post
+              </Button>
+            ) : null}
           </Flex>
         </HStack>
         <VerifyModal />

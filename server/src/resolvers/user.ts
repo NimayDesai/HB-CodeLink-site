@@ -413,6 +413,85 @@ export class UserResolver {
 
     return { user };
   }
+
+  @Mutation(() => UserResponse)
+  async registerAdmin(
+    @Arg("options", () => UsernamePasswordEmailInput)
+    options: UsernamePasswordEmailInput,
+    @Arg("adminPass") adminPass: string,
+    @Ctx() { req, prisma }: MyContext
+  ): Promise<UserResponse> {
+    if (options.username.length <= 2) {
+      return {
+        errors: [
+          {
+            field: "username",
+            message: "Length must be greater than 2 characters",
+          },
+        ],
+      };
+    }
+    if (options.email.length <= 2) {
+      return {
+        errors: [
+          {
+            field: "email",
+            message: "Length must be greater than 2 characters",
+          },
+        ],
+      };
+    }
+    if (options.password.length <= 2) {
+      return {
+        errors: [
+          {
+            field: "password",
+            message: "Length must be greater than 2 characters",
+          },
+        ],
+      };
+    }
+
+    if (adminPass !== process.env.ADMIN_PASSWORD) {
+      return {
+        errors: [
+          {
+            field: "adminPass",
+            message: "Invalid ADMIN PASSWORD",
+          },
+        ],
+      };
+    }
+    const hashedPassword = await argon2.hash(options.password);
+    let user;
+    try {
+      user = await prisma.user.create({
+        data: {
+          username: options.username,
+          email: options.email,
+          password: hashedPassword,
+          name: options.name,
+          isAdmin: true,
+          verified: true,
+        },
+      });
+    } catch (err) {
+      if (err.code === "P2002") {
+        return {
+          errors: [
+            {
+              field: "username",
+              message: "user already exists",
+            },
+          ],
+        };
+      }
+    }
+
+    req.session.userId = user?.id;
+
+    return { user };
+  }
   @Mutation(() => UserResponse)
   async login(
     @Arg("usernameOrEmail", () => String) usernameOrEmail: string,

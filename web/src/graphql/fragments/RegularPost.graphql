@@ -5,6 +5,7 @@ fragment RegularPost on Post {
   title
   content
   points
+  type
   author {
     ...RegularUser
   }

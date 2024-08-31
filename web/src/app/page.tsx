@@ -12,6 +12,7 @@ import {
   Heading,
   Icon,
   Image,
+  Link,
   ScaleFade,
   SimpleGrid,
   Skeleton,
@@ -144,6 +145,9 @@ const Home = () => {
                     h={12}
                     color="white"
                     size={"lg"}
+                    as={Link}
+                    isExternal
+                    href="https://instagram.com/hb_codelink"
                     lineHeight={1}
                     rounded="md"
                     boxShadow="md"

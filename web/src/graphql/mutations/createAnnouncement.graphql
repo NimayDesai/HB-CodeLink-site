@@ -1,0 +1,5 @@
+mutation CreateAnnouncement($input: PostInput!) {
+  createAnnouncement(input: $input) {
+    ...RegularPost
+  }
+}

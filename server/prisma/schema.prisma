@@ -30,6 +30,7 @@ model User {
   posts      Post[]
   imageUri   String?
   lastPosted DateTime?
+  isAdmin    Boolean   @default(false)
   verified   Boolean   @default(false)
   /// @TypeGraphQL.omit(output: true)
   password   String
@@ -47,6 +48,7 @@ model Post {
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int
   points    Int       @default(0)
+  type      String    @default("general")
   comments  Comment[]
   star      Star[]
 }

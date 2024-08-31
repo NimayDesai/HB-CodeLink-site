@@ -33,7 +33,7 @@ const ForumHub: React.FC<{}> = ({}) => {
             <Tr>
               <Td>
                 <Heading as="h2" size="lg" mb={4}>
-                  <Link href={"/forum/general"}>General Discussion</Link>
+                  <Link href={"/forum/general/1"}>General Discussion</Link>
                 </Heading>
                 <Text mb={2}>
                   This category is for general discussions and conversations.
