@@ -11,11 +11,11 @@ import {
   Flex,
   Heading,
   Image,
-  Link,
   Stack,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 
@@ -36,7 +36,7 @@ const Register = () => {
       <Flex p={8} flex={1} align="center" justifyContent="center">
         <Stack spacing={4}>
           <Stack align="center">
-            <Heading fontSize="5xl">Sign in to your account</Heading>
+            <Heading fontSize="5xl">Register</Heading>
           </Stack>
           <Formik
             initialValues={{ username: "", name: "", email: "", password: "" }}
@@ -100,8 +100,8 @@ const Register = () => {
                       justifyContent="space-between"
                       w="100%"
                     >
-                      <Link fontSize={{ base: "md", sm: "md" }}>
-                        Forgot password?
+                      <Link href="/login" fontSize={{ base: "md", sm: "md" }}>
+                        Already have an account?
                       </Link>
                     </Stack>
                     <Button

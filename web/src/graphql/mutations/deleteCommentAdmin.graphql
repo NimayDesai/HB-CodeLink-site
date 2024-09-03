@@ -1,0 +1,3 @@
+mutation DeleteCommentAdmin($deletePostAdminId: Int!, $postId: Int!) {
+  deleteCommentAdmin(id: $deletePostAdminId, postId: $postId)
+}

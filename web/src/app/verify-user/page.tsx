@@ -15,12 +15,14 @@ const VerifyUser = () => {
   const [sendVerifyEmail] = useSendVerifyEmailMutation();
   const verify = async () => {
     if (data?.me) {
-      await sendVerifyEmail({
-        variables: {
-          email: data?.me.email,
-        },
-      });
-      setComplete(true);
+      if (!complete) {
+        await sendVerifyEmail({
+          variables: {
+            email: data?.me.email,
+          },
+        });
+        setComplete(true);
+      }
     }
   };
   useEffect(() => {

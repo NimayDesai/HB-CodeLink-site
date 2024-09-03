@@ -20,9 +20,9 @@ import {
   Flex,
   Heading,
   HStack,
+  Text,
   IconButton,
   Stack,
-  Text,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
@@ -30,7 +30,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Forum = ({ params: p }: { params: { page: string } }) => {
-  const textColor = useColorModeValue("gray.500", "gray.200");
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
   const { data, refetch } = usePostsQuery({
@@ -48,6 +47,7 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
   refetch();
   const c1 = useColorModeValue("white", "gray.800");
   const c2 = useColorModeValue("gray.100", "gray.700");
+  const c3 = useColorModeValue("gray.600", "gray.400");
   return (
     <>
       <NavBar />
@@ -98,23 +98,9 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                         >
                           {p.title}
                         </Heading>
+                        <Text color={c3}>By: {p.author.name}</Text>
                       </HStack>
-
-                      {!isOpen && (
-                        <Text
-                          fontSize="sm"
-                          color={textColor}
-                          noOfLines={{ base: 2 }}
-                        >
-                          {p.content}
-                        </Text>
-                      )}
-
-                      {isOpen && (
-                        <Text fontSize="sm" color={textColor}>
-                          {p.content}
-                        </Text>
-                      )}
+                      <Text color={c3}>By: {p.author.name}</Text>
                     </VStack>
                   </VStack>
                   {meData?.me?.id === p.author.id && !meData.me.isAdmin ? (
@@ -122,6 +108,7 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                       icon={<DeleteIcon />}
                       aria-label="Delete Post"
                       colorScheme="red"
+                      ml="auto"
                       mr={2}
                       onClick={() => {
                         deletePost({

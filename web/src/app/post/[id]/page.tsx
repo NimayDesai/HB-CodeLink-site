@@ -4,10 +4,12 @@ import Navbar from "@/components/NavBar";
 import {
   useCommentsQuery,
   useCreateCommentMutation,
+  useDeleteCommentAdminMutation,
   useMeQuery,
   usePostSuspenseQuery,
 } from "@/gql/generated/graphql";
 import { calculateDateDifference } from "@/utils/calcDifference";
+import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
@@ -16,6 +18,7 @@ import {
   Flex,
   Heading,
   HStack,
+  IconButton,
   InputGroup,
   Link,
   Spinner,
@@ -35,13 +38,19 @@ function Post({ params: p }: { params: { id: string } }) {
       id: parseInt(p.id),
     },
   });
-  const { data: commentsData, fetchMore } = useCommentsQuery({
+  const {
+    data: commentsData,
+    fetchMore,
+    refetch,
+  } = useCommentsQuery({
     variables: {
       limit: 10,
       postId: parseInt(p.id),
     },
   });
+  refetch();
   const [createComment] = useCreateCommentMutation();
+  const [deleteCommentAdmin] = useDeleteCommentAdminMutation();
   const timeAgo = calculateDateDifference(data.post?.createdAt);
   const timeUpdatedAgo = calculateDateDifference(data.post?.updatedAt);
   const c1 = useColorModeValue("white", "gray.800");
@@ -97,7 +106,7 @@ function Post({ params: p }: { params: { id: string } }) {
                       : timeAgo.hours
                       ? timeAgo.hours + " hours"
                       : timeAgo.minutes
-                      ? timeAgo.minutes + "minutes"
+                      ? timeAgo.minutes + " minutes"
                       : timeAgo.seconds
                       ? timeAgo.seconds + " seconds"
                       : "0 seconds"}{" "}
@@ -255,6 +264,25 @@ function Post({ params: p }: { params: { id: string } }) {
                               </HStack>
                             </VStack>
                           </VStack>
+                          {meData?.me?.isAdmin ? (
+                            <IconButton
+                              onClick={() => {
+                                deleteCommentAdmin({
+                                  variables: {
+                                    deletePostAdminId: c.id,
+                                    postId: parseInt(p.id),
+                                  },
+                                  update: (cache) => {
+                                    cache.evict({ id: "Comment:" + c.id });
+                                  },
+                                });
+                              }}
+                              icon={<DeleteIcon />}
+                              aria-label="Delete Comment"
+                              colorScheme="red"
+                              ml="auto"
+                            />
+                          ) : null}
                         </HStack>
                       </chakra.div>
                     ))}

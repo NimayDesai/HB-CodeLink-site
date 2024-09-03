@@ -47,7 +47,7 @@ const CreatePost = () => {
               },
             });
             if (!response.errors) {
-              router.push("/forum");
+              router.push("/forum/announcements/1");
             }
           }}
         >

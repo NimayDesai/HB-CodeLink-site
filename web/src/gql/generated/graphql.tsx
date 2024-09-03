@@ -791,6 +791,14 @@ export type CreatePostMutationVariables = Exact<{
 
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, createdAt: any, updatedAt: any, title: string, content: string, points: number, type: string, author: { __typename?: 'User', id: number, username: string, name: string, imageUri?: string | null, email: string, verified: boolean, isAdmin: boolean } } };
 
+export type DeleteCommentAdminMutationVariables = Exact<{
+  deletePostAdminId: Scalars['Int']['input'];
+  postId: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteCommentAdminMutation = { __typename?: 'Mutation', deleteCommentAdmin: boolean };
+
 export type DeletePostMutationVariables = Exact<{
   postId: Scalars['Int']['input'];
 }>;
@@ -1144,6 +1152,38 @@ export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const DeleteCommentAdminDocument = gql`
+    mutation DeleteCommentAdmin($deletePostAdminId: Int!, $postId: Int!) {
+  deleteCommentAdmin(id: $deletePostAdminId, postId: $postId)
+}
+    `;
+export type DeleteCommentAdminMutationFn = Apollo.MutationFunction<DeleteCommentAdminMutation, DeleteCommentAdminMutationVariables>;
+
+/**
+ * __useDeleteCommentAdminMutation__
+ *
+ * To run a mutation, you first call `useDeleteCommentAdminMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCommentAdminMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCommentAdminMutation, { data, loading, error }] = useDeleteCommentAdminMutation({
+ *   variables: {
+ *      deletePostAdminId: // value for 'deletePostAdminId'
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useDeleteCommentAdminMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentAdminMutation, DeleteCommentAdminMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCommentAdminMutation, DeleteCommentAdminMutationVariables>(DeleteCommentAdminDocument, options);
+      }
+export type DeleteCommentAdminMutationHookResult = ReturnType<typeof useDeleteCommentAdminMutation>;
+export type DeleteCommentAdminMutationResult = Apollo.MutationResult<DeleteCommentAdminMutation>;
+export type DeleteCommentAdminMutationOptions = Apollo.BaseMutationOptions<DeleteCommentAdminMutation, DeleteCommentAdminMutationVariables>;
 export const DeletePostDocument = gql`
     mutation DeletePost($postId: Int!) {
   deletePost(postId: $postId)

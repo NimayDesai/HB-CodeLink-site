@@ -19,6 +19,7 @@ import {
   Container,
   Flex,
   Heading,
+  Text,
   HStack,
   IconButton,
   Stack,
@@ -46,6 +47,7 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
   refetch();
   const c1 = useColorModeValue("white", "gray.800");
   const c2 = useColorModeValue("gray.100", "gray.700");
+  const c3 = useColorModeValue("gray.600", "gray.400");
   return (
     <>
       <NavBar />
@@ -94,7 +96,9 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                         >
                           {p.title}
                         </Heading>
+                        <Text color={c3}>By: {p.author.name}</Text>
                       </HStack>
+                      <Text color={c3}>{p.content}</Text>
                     </VStack>
                   </VStack>
                   {meData?.me?.id === p.author.id && !meData.me.isAdmin ? (
@@ -103,6 +107,7 @@ const Forum = ({ params: p }: { params: { page: string } }) => {
                       aria-label="Delete Post"
                       colorScheme="red"
                       mr={2}
+                      ml="auto"
                       onClick={() => {
                         deletePost({
                           variables: { postId: p.id },

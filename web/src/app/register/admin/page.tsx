@@ -36,7 +36,10 @@ const RegisterAdmin = () => {
       <Flex p={8} flex={1} align="center" justifyContent="center">
         <Stack spacing={4}>
           <Stack align="center">
-            <Heading fontSize="5xl">Sign in to your account</Heading>
+            <Heading fontSize="5xl">
+              Register (Execs only) please send message in GC to get admin
+              password
+            </Heading>
           </Stack>
           <Formik
             initialValues={{
@@ -121,7 +124,7 @@ const RegisterAdmin = () => {
                       w="100%"
                     >
                       <Link fontSize={{ base: "md", sm: "md" }}>
-                        Forgot password?
+                        Already have an account
                       </Link>
                     </Stack>
                     <Button

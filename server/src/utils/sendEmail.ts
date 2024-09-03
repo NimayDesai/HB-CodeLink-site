@@ -1,18 +1,14 @@
-import nodemailer from "nodemailer";
+import formData from "form-data";
+import Mailgun from "mailgun.js";
 
 export async function sendEmail(to: string, html: string, subject: string) {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.SMTP_USERNAME,
-      pass: process.env.SMTP_PASSWORD,
-    },
+  const mailgun = new Mailgun(formData);
+  const mg = mailgun.client({
+    username: "api",
+    key: process.env.MAILGUN_API_KEY,
   });
-
-  await transporter.sendMail({
-    from: "HB CodeLink",
+  mg.messages.create("mailgun.hbcodelink.tech", {
+    from: "HB CodeLink <noreply@hbcodelink.tech>",
     to,
     subject,
     html,

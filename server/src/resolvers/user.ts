@@ -87,7 +87,7 @@ export class UserResolver {
     <div>
       <h1>Please Verify your CodeLink Account</h1>
       <h2>CodeLink will never ask you to verify your account over the phone or via SMS, only via email</h2>
-      <a href="http://localhost:3000/verify/${token}">Verify Account</a>
+      <a href="https://hbcodelink.tech/verify/${token}">Verify Account</a>
     </div>
     `;
     await sendEmail(email, HTML, "Verify your CodeLink account");
@@ -206,7 +206,7 @@ export class UserResolver {
       "EX",
       1000 * 60 * 60 * 24 * 3
     );
-    const HTML = `<a href="http://localhost:3000/change-password/${token}">reset password</a>`;
+    const HTML = `<a href="https://hbcodelink.tech/change-password/${token}">reset password</a>`;
     await sendEmail(email, HTML, "CodeLink Reset Password");
 
     return true;

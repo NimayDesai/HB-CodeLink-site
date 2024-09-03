@@ -99,6 +99,9 @@ const Login = () => {
                       >
                         Forgot password?
                       </Link>
+                      <Link fontSize={{ base: "md", sm: "md" }} href="register">
+                        Create Account
+                      </Link>
                     </Stack>
                     <Button
                       mt="8"

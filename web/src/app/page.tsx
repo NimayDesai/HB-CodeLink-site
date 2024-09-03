@@ -234,15 +234,17 @@ const Home = () => {
         >
           <Usercard
             name="Edward Lin"
-            decription="To be filled by edward"
+            decription="Math Enjoyer 📘 Loves Programming 🧑🏼‍💻 Star Wars addict ⭐ Guitar Player🎸"
             position="Co-President"
             insta="https://instagram.com/edyi_01"
+            image_uri="https://github.com/sachkeeratb/HBCyberTech-Website/blob/main/client/src/assets/EdwardLin.jpg?raw=true"
             github="https://github.com/TheNobleCoder"
           />
           <Usercard
             name="Nimay Desai"
             decription="Full Stack Developer 👨‍💻 Math Enjoyer 📘 History Buff 🌍 Loves Computers 💻"
             position="Co-President"
+            image_uri="https://github.com/sachkeeratb/HBCyberTech-Website/blob/main/client/src/assets/NimayDesai.png?raw=true"
             insta="https://instagram.com/paladinaoe2"
             github="https://github.com/NimayDesai"
           />
@@ -256,35 +258,27 @@ const Home = () => {
           />
           <Usercard
             name="Shihan Salgadoe"
-            decription="To be filled by shihan"
+            decription="Robotics Nerd 🤖 Piano Player 🎹 Track Athlete 🏃‍➡️Physics Enjoyer🚀"
             position="VP of Development"
+            image_uri="https://scontent.xx.fbcdn.net/v/t1.15752-9/456332148_1140409103722176_4843876267944174596_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=toPLroV6oU4Q7kNvgGfQwKD&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QGXhbzt_VlB_AVvd16hr_4ZO7HYR3732nHTgc9uHWhdVQ&oe=66FD9F6B"
             insta="https://instagram.com/ShihanSalgadoe"
             github="https://github.com/ShihanSalgadoe"
           />
 
           <Usercard
             name="Manav Vasa"
-            decription="Full-Stack Dev 👨‍💻 Gaming Addict 🪖 Gym Enjoyer 🏋️‍♂️ Guitarist 🎸"
+            decription="To be filled"
             position="VP of Marketing"
-            insta="https://instagram.com/sachkeeratb"
-            image_uri="https://avatars.githubusercontent.com/u/61165141?v=4"
-            github="https://github.com/sachkeeratb"
+            insta="https://www.instagram.com/manxv_vasa/"
+            image_uri="https://scontent.xx.fbcdn.net/v/t1.15752-9/456466368_1161222915105724_8821619160315216268_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=lSFJY0A9GQ0Q7kNvgFZ61qZ&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QHXtIARq5R-qIfQ1hbIYwoUrmAebQ3RUVCmzHhksuuoSg&oe=66FD7E1D"
           />
           <Usercard
             name="Kushi Kallam"
-            decription="Full-Stack Dev 👨‍💻 Gaming Addict 🪖 Gym Enjoyer 🏋️‍♂️ Guitarist 🎸"
+            decription="To be filled"
             position="VP of Marketing"
-            insta="https://instagram.com/sachkeeratb"
-            image_uri="https://avatars.githubusercontent.com/u/61165141?v=4"
-            github="https://github.com/sachkeeratb"
-          />
-          <Usercard
-            name="Pradyuman Uppal"
-            decription="Full-Stack Dev 👨‍💻 Gaming Addict 🪖 Gym Enjoyer 🏋️‍♂️ Guitarist 🎸"
-            position="VP of Marketing"
-            insta="https://instagram.com/sachkeeratb"
-            image_uri="https://avatars.githubusercontent.com/u/61165141?v=4"
-            github="https://github.com/sachkeeratb"
+            image_uri="https://scontent.xx.fbcdn.net/v/t1.15752-9/457032756_1669325627236310_4855567579982260593_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=7GG23ZfxWHIQ7kNvgGKGl3k&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&_nc_gid=AK1_wgYRlIx-OIthDSiifQT&oh=03_Q7cD1QFyyfrxCy84qb178OM5UR4njqu_omIP8C_2hgYmtTNvGw&oe=66FE8716"
+            insta="https://instagram.com/kushikallam"
+            github="https://github.com/kushikallam1"
           />
         </SimpleGrid>
       </Container>

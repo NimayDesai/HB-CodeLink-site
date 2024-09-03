@@ -11,8 +11,11 @@ import { Box, Heading, Table, Text, Tbody, Td, Tr } from "@chakra-ui/react";
 import React from "react";
 
 const ForumHub: React.FC<{}> = ({}) => {
-  const { data } = usePostGeneralCountQuery();
-  const { data: announcementData } = usePostAnnouncementCountQuery();
+  const { data, refetch } = usePostGeneralCountQuery();
+  const { data: announcementData, refetch: refetch2 } =
+    usePostAnnouncementCountQuery();
+  refetch();
+  refetch2();
   return (
     <>
       <NavBar />
