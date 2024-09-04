@@ -23,7 +23,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { FaUser } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { MdForum, MdLogin, MdLogout, MdSettings } from "react-icons/md";
+import { MdForum, MdLink, MdLogin, MdLogout, MdSettings } from "react-icons/md";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 
 const Navbar = () => {
@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <Container
-      maxW="7xl"
+      maxW="8x l"
       p={{ base: 5, md: 10 }}
       position={"sticky"}
       top={0}
@@ -77,6 +77,22 @@ const Navbar = () => {
                   as={Link}
                 >
                   Forum
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}>
+                <Button
+                  leftIcon={<MdLink />}
+                  bgGradient="linear(to-l, #7928CA,#FF0080)"
+                  color="white"
+                  variant="solid"
+                  size="sm"
+                  _hover={{ opacity: 0.9 }}
+                  rounded="md"
+                  py={6}
+                  href={"/links"}
+                  as={Link}
+                >
+                  Links
                 </Button>
               </motion.div>
               {!data?.me ? (

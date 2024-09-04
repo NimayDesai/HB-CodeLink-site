@@ -274,7 +274,7 @@ const Home = () => {
           />
           <Usercard
             name="Kushi Kallam"
-            decription="To be filled"
+            decription="New Coder 💻 Math enjoyer 📘 Loves video games 🎮 and board games ♟️"
             position="VP of Marketing"
             image_uri="https://scontent.xx.fbcdn.net/v/t1.15752-9/457032756_1669325627236310_4855567579982260593_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=7GG23ZfxWHIQ7kNvgGKGl3k&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&_nc_gid=AK1_wgYRlIx-OIthDSiifQT&oh=03_Q7cD1QFyyfrxCy84qb178OM5UR4njqu_omIP8C_2hgYmtTNvGw&oe=66FE8716"
             insta="https://instagram.com/kushikallam"

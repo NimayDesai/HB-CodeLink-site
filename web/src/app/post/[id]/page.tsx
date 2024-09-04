@@ -27,7 +27,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 
 function Post({ params: p }: { params: { id: string } }) {
   const textColor = useColorModeValue("gray.500", "gray.200");
@@ -51,8 +51,15 @@ function Post({ params: p }: { params: { id: string } }) {
   refetch();
   const [createComment] = useCreateCommentMutation();
   const [deleteCommentAdmin] = useDeleteCommentAdminMutation();
-  const timeAgo = calculateDateDifference(data.post?.createdAt);
-  const timeUpdatedAgo = calculateDateDifference(data.post?.updatedAt);
+
+  const timeAgo = useMemo(
+    () => calculateDateDifference(data.post?.createdAt),
+    [data.post?.createdAt]
+  );
+  const timeUpdatedAgo = useMemo(
+    () => calculateDateDifference(data.post?.updatedAt),
+    [data.post?.updatedAt]
+  );
   const c1 = useColorModeValue("white", "gray.800");
   const c2 = useColorModeValue("gray.100", "gray.700");
   const c3 = useColorModeValue("gray.600", "gray.300");
@@ -77,19 +84,6 @@ function Post({ params: p }: { params: { id: string } }) {
                 textAlign={"left"}
                 _hover={{ shadow: "lg" }}
               >
-                {/* <Image
-                  src={
-                    data.post?.author.imageUri
-                      ? data.post.author.imageUri
-                      : undefined
-                  }
-                  width={33}
-                  height={33}
-                  rounded="md"
-                  objectFit="cover"
-                  alt="cover image"
-                  fallbackSrc="https://via.placeholder.com/150"
-                /> */}
                 <Box mb={2} mr="auto" textAlign={"left"}>
                   <Box ml="auto" position={"absolute"} right={0}></Box>
                   <Heading fontWeight="bold" size={"xl"}>
